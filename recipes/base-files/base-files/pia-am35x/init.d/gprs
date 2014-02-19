@@ -1,0 +1,70 @@
+#!/bin/sh
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin                                                                                                   
+#DAEMON=/usr/sbin/lighttpd                                                                                                            
+NAME="Tellit GE864-Quad V2"
+DESC="GPRS Device"
+#OPTS="-f /etc/lighttpd.conf"
+GPIO_POWERON=29
+GPIO_GPRSONOFF=127
+GPIO_GPRSRESET=126
+
+if [ ! -e /sys/class/gpio/gpio$GPIO_POWERON ] ; then exit 0 ; fi
+
+case "$1" in
+  start)
+	echo -n "Initializing $DESC: "
+	if [ -e /sys/class/gpio/gpio$GPIO_GPRSRESET ] ; then
+		if [ -e /sys/class/gpio/gpio$GPIO_GPRSRESET/value ] ; then
+			echo 0 > /sys/class/gpio/gpio$GPIO_GPRSRESET/value
+		fi
+	else
+		echo -n "Getting GPRS POWER GPIO failed!"
+		exit 1
+	fi
+	if [ -e /sys/class/gpio/gpio$GPIO_POWERON ] ; then
+		if [ -e /sys/class/gpio/gpio$GPIO_POWERON/direction ] ; then
+			echo out > /sys/class/gpio/gpio$GPIO_POWERON/direction
+		fi
+		if [ -e /sys/class/gpio/gpio$GPIO_POWERON/value ] ; then
+			# turn off power to get a clean poweron
+			echo 0 > /sys/class/gpio/gpio$GPIO_POWERON/value
+		fi
+	else
+		echo -n "Getting GPRS RESET GPIO failed!"
+		exit 1
+	fi
+	if [ -e /sys/class/gpio/gpio$GPIO_GPRSONOFF ] ; then
+		if [ -e /sys/class/gpio/gpio$GPIO_GPRSONOFF/value ] ; then
+			echo 0 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+		fi
+	else
+		echo -n "Getting GPRS ON/OFF GPIO failed!"
+		exit 1
+	fi
+	# wait to turn power back on
+	sleep 1
+	echo 1 > /sys/class/gpio/gpio$GPIO_POWERON/value
+	sleep 2
+	
+	echo 1 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	sleep 1
+	echo 0 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	echo "$NAME."
+	;;
+  stop)
+	echo -n "Shutting down $DESC: "
+	echo 1 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	sleep 3
+	echo 0 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	echo 0 > /sys/class/gpio/gpio$GPIO_POWERON/value
+	echo "$NAME."
+	;;
+  *)                                                                                                                                 
+	N=/etc/init.d/$NAME                                                                                                          
+	echo "Usage: $N {start|stop}" >&2                                                                       
+	exit 1                                                                                                                       
+	;;                                                                                                                           
+esac                                                                                                                                 
+                                                                                                                                     
+exit 0                                                                                                                               
