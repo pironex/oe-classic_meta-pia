@@ -1,6 +1,6 @@
 DESCRIPTION = "Additional demos and utility packages for piA AM35x that require more space. Can be uninstalled."
 LICENSE = "MIT"
-PR = "r012"
+PR = "r014"
 
 inherit task
 
@@ -10,6 +10,9 @@ RDEPENDS = ' \
 	task-pia \
 	task-base \
 	usbutils \
+	gdb \
+	gdbserver \
+	php-cgi php-cli php \
 '
 
 # packages required for expansion boards, display
@@ -47,10 +50,9 @@ RRECOMMENDS = ' \
 	dbus-cxx dbus-x11 \
 	dbus-c++ \
 	\
-	gdb gdbserver \
 	kernel-module-rtlwifi kernel-module-rtl8192c-common kernel-module-rtl8192cu \
 	kernel-module-rt2x00lib kernel-module-rt2x00usb \
-	kernel-module-rfcomm kernel-module-rfkill \
+	kernel-module-rfcomm kernel-module-rfkill kernel-module-vcan \
 '
 #bigbuckbunny-480p \
 # 	kernel-modules
