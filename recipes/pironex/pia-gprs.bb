@@ -6,7 +6,7 @@
 DESCRIPTION = "GPRS init scripts and device handling for piA-AM35x boards"
 LICENSE = "MIT"
 PV = "0.1.0"
-PR = "r011"
+PR = "r012"
 
 PACKAGE_ARCH = "${MACHINE_ARCH}"
 COMPATIBLE_MACHINE = "pia-am35x"

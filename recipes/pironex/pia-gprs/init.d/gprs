@@ -1,10 +1,8 @@
 #!/bin/sh
 
-PATH=/sbin:/bin:/usr/sbin:/usr/bin                                                                                                   
-#DAEMON=/usr/sbin/lighttpd                                                                                                            
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
 NAME="Telit GE864-Quad V2"
 DESC="GPRS Device"
-#OPTS="-f /etc/lighttpd.conf"
 GPIO_POWERON=29
 GPIO_GPRSONOFF=127
 GPIO_GPRSRESET=126
@@ -121,11 +119,11 @@ case "$1" in
 		kill $pids
 	fi
 	;;
-  *)                                                                                                                                 
-	N=/etc/init.d/gprs                                                                                                          
-	echo "Usage: $N {start|stop}" >&2                                                                       
-	exit 1                                                                                                                       
-	;;                                                                                                                           
-esac                                                                                                                                 
-                                                                                                                                     
-exit 0                                                                                                                               
+  *)
+	N=/etc/init.d/gprs
+	echo "Usage: $N {start|stop}" >&2
+	exit 1
+	;;
+esac
+
+exit 0
