@@ -1,6 +1,6 @@
 DESCRIPTION = "QTembedded related demos and packages for piA."
 LICENSE = "MIT"
-PR = "r006"
+PR = "r007"
 
 inherit task
 
