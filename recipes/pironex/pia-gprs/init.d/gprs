@@ -34,7 +34,7 @@ case "$1" in
 			echo 0 > /sys/class/gpio/gpio$GPIO_GPRSRESET/value
 		fi
 	else
-		echo -n "Getting GPRS POWER GPIO failed!"
+		echo -n "Getting GPRS RESET GPIO failed!"
 		exit 1
 	fi
 	if [ -e /sys/class/gpio/gpio$GPIO_POWERON ] ; then
@@ -46,7 +46,7 @@ case "$1" in
 			echo 0 > /sys/class/gpio/gpio$GPIO_POWERON/value
 		fi
 	else
-		echo -n "Getting GPRS RESET GPIO failed!"
+		echo -n "Getting GPRS POWERON GPIO failed!"
 		exit 1
 	fi
 	if [ -e /sys/class/gpio/gpio$GPIO_GPRSONOFF ] ; then
@@ -58,18 +58,18 @@ case "$1" in
 		exit 1
 	fi
 	# wait to turn power back on
-	sleep 1
-	echo 1 > /sys/class/gpio/gpio$GPIO_POWERON/value
 	sleep 2
-	
-	# 1 second pulse to turn on
-	echo 1 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	echo 1 > /sys/class/gpio/gpio$GPIO_POWERON/value
 	sleep 1
+	
+	# >1 second pulse to turn on
+	echo 1 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
+	sleep 3
 	echo 0 > /sys/class/gpio/gpio$GPIO_GPRSONOFF/value
 	# takes 300 ms to power on
 	sleep 2
 	
-	if [ $RUN_CMUX == "true" ] ; then
+	if [ "${RUN_CMUX}" = "true" ] ; then
 		if [ -x /usr/sbin/cmux ] ; then
 			echo " with cmux "
 			/usr/sbin/cmux
@@ -82,7 +82,7 @@ case "$1" in
 	;;
   stop)
 	# disable USB-Switch
-	if [ $GPRS_ENABLED == "umts" ] ; then
+	if [ "${GPRS_ENABLED}" = "umts" ] ; then
 		echo 0 > /sys/class/gpio/gpio$GPIO_USB_SW/value
 	fi
                             
@@ -95,8 +95,8 @@ case "$1" in
 	echo 0 > /sys/class/gpio/gpio$GPIO_POWERON/value
 
 	pids=`pidof cmux`
-	if [[ pids != "" ]] ; then
-		echo "$NAME."
+	if [[ "${pids}" = "" ]] ; then
+		echo "(cmux not running) $NAME."
 		exit 0
 	fi
 	
@@ -106,6 +106,7 @@ case "$1" in
 		kill ${tty}
 		sleep 3
 
+	tty=$(fuser /dev/gsmtty*)
 		if [[ "${tty}" != "" ]] ; then 
 			echo "Kill -9 ${tty}"
 			kill -9 ${tty}
@@ -114,9 +115,9 @@ case "$1" in
 	fi
 	
 	echo "$NAME."
-	if [[ pids != "" ]] ; then
+	if [[ ${pids} != "" ]] ; then
 		echo "Stopping cmux."
-		kill $pids
+		kill ${pids}
 	fi
 	;;
   *)
