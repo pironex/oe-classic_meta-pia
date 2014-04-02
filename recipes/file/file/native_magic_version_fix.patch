@@ -1,0 +1,22 @@
+Index: file-5.05/magic/Makefile.am
+===================================================================
+--- file-5.05.orig/magic/Makefile.am	2014-04-02 16:07:57.000008210 +0200
++++ file-5.05/magic/Makefile.am	2014-04-02 16:27:19.149076598 +0200
+@@ -242,13 +242,15 @@
+ if IS_CROSS_COMPILE
+ FILE_COMPILE = file
+ FILE_COMPILE_DEP =
++FILE_COMPILE_LP =
+ else
+-FILE_COMPILE = $(top_builddir)/src/file
++FILE_COMPILE_LP = ../src/.libs
++FILE_COMPILE = ../src/file
+ FILE_COMPILE_DEP = $(FILE_COMPILE)
+ endif
+ 
+ ${MAGIC}: $(EXTRA_DIST) $(FILE_COMPILE_DEP)
+ 	@rm -fr magic
+ 	@mkdir magic && cp -p $(EXTRA_DIST) magic
+-	$(FILE_COMPILE) -C -m magic
++	LD_LIBRARY_PATH=$(FILE_COMPILE_LP) $(FILE_COMPILE) -C -m magic
+ 	@rm -fr magic
