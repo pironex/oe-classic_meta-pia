@@ -115,7 +115,7 @@ case "$1" in
 	fi
 	
 	echo "$NAME."
-	if [[ ${pids} != "" ]] ; then
+	if [[ "${pids}" != "" ]] ; then
 		echo "Stopping cmux."
 		kill ${pids}
 	fi
