@@ -27,8 +27,11 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-pia-kaco"
 #SRCREV = "135789084f0bf303771170a8728d1b946ee8a92d"
 #MACHINE_KERNEL_PR_append = "pia021+gitr${SRCREV}"
 # MUSB fixes
-SRCREV = "8a727c75ed3d0abc59f864181f0d22ef381cdf87"
-MACHINE_KERNEL_PR_append = "pia022+gitr${SRCREV}"
+#SRCREV = "8a727c75ed3d0abc59f864181f0d22ef381cdf87"
+#MACHINE_KERNEL_PR_append = "pia022+gitr${SRCREV}"
+# I2C adapter classes fix
+SRCREV = "027eb7d3ce8458c9a05ab12c54329f575a4acb69"
+MACHINE_KERNEL_PR_append = "pia023+gitr${SRCREV}"
 
 
 
