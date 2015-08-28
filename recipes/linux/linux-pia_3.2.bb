@@ -21,7 +21,7 @@ PV = "3.2.54"
 #SRCREV = "1d29c6909cd7b5eb2c4fd8d652a977145f8c2fcd"
 #MACHINE_KERNEL_PR_append = "pia018+gitr${SRCREV}"
 # KACO fixes RS485
-PREFERRED_PROVIDER_virtual/kernel = "linux-pia-kaco"
+#PREFERRED_PROVIDER_virtual/kernel = "linux-pia-kaco"
 #SRCREV = "514ef252d8e5d6ab113b3d1664ed3bbbc70bd978"
 #MACHINE_KERNEL_PR_append = "pia019+gitr${SRCREV}"
 #SRCREV = "135789084f0bf303771170a8728d1b946ee8a92d"
@@ -30,8 +30,9 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-pia-kaco"
 #SRCREV = "8a727c75ed3d0abc59f864181f0d22ef381cdf87"
 #MACHINE_KERNEL_PR_append = "pia022+gitr${SRCREV}"
 # I2C adapter classes fix
-SRCREV = "027eb7d3ce8458c9a05ab12c54329f575a4acb69"
-MACHINE_KERNEL_PR_append = "pia023+gitr${SRCREV}"
+#SRCREV = "027eb7d3ce8458c9a05ab12c54329f575a4acb69"
+SRCREV = "d09deac897d89bac4e3ee6b101788625d5819f65"
+MACHINE_KERNEL_PR_append = "pia024+gitr${SRCREV}"
 
 
 
